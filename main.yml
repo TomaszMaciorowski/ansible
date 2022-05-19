@@ -1,0 +1,25 @@
+- name: Intro
+  hosts: all
+
+  tasks:
+  - name: Touch file
+    ansible.builtin.file:
+      path: /var/tmp/foo.conf
+      state: file
+      mode: u=rw,g=r,o=r
+      owner: opc
+
+  - name: Copy file with owner and permissions
+    ansible.builtin.copy:
+      src: /etc/sysctl.conf
+      dest: /var/tmp/sysctl.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Add a line to a file if the file does not exist, without passing regexp
+    ansible.builtin.lineinfile:
+      path: /var/tmp/sysctl.conf
+      line: vm.max_map_count=262144 
+      create: no
+      regexp: vm.max_map_count=.*
