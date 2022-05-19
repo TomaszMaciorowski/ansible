@@ -15,7 +15,7 @@
       dest: /var/tmp/sysctl.conf
       owner: root
       group: root
-      mode: '0644'
+      mode: '0777'
 
   - name: Add a line to a file if the file does not exist, without passing regexp
     ansible.builtin.lineinfile:
