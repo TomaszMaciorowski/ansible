@@ -1,5 +1,4 @@
 [hosty]
-instance-x86-1 ansible_host=141.147.52.141
 instance-arm-3 ansible_host=130.162.55.21
 instance-arm-1 ansible_host=141.147.37.255
 
@@ -10,3 +9,16 @@ ansible_become=true
 ansible_user=opc
 ansible_ssh_private_key_file=/home/tm/.ssh/ssh-key-2022-05-17.key
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+packages=["chrony","iptables"]
+
+[hostyx86]
+instance-x86-1 ansible_host=141.147.52.141
+
+[hostyx86:vars]
+ansible_connection=ssh
+ansible_port=22
+ansible_become=true
+ansible_user=opc
+ansible_ssh_private_key_file=/home/tm/.ssh/ssh-key-2022-05-17.key
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+packages=["chrony","iptables"]

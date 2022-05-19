@@ -1,6 +1,8 @@
 - name: Intro
   hosts: all
 
+
+
   tasks:
   - name: Tmount
     ansible.posix.mount:
@@ -29,9 +31,35 @@
     ansible.builtin.package:
       name: "{{ item }}"
       state: present  
-    loop:
-      - chrony
-      - iptables 
+    loop: "{{ packages }}"
+    tags:
+      - mojsze
+      - tomek
+
+  - name: cron enable
+    ansible.builtin.systemd:
+      name: crond
+      enabled: yes
+    tags:
+      - mojsze
+
+  - name: set sshd
+    ansible.builtin.lineinfile:
+      path: /etc/ssh/sshd_config
+      line: PermitEmptyPasswords no  
+      create: no  
+      regexp: PermitEmptyPasswords.*
+    tags:
+      - sshd
+    notify:
+      - restart_ssh
+
+  handlers:
+  - name: restart_ssh
+    ansible.builtin.systemd:
+      name: sshd
+      state: restarted
+
 
 
 
