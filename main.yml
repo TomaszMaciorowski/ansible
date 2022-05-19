@@ -24,4 +24,19 @@
       mode: '0644'
       owner: root
       group: root
-      
+
+  - name: Install chrony
+    ansible.builtin.package:
+      name: "{{ item }}"
+      state: present  
+    loop:
+      - chrony
+      - iptables 
+
+
+
+#
+##  - name: Install iptables
+##    ansible.builtin.package:
+#      name: iptables
+#      state: present  
