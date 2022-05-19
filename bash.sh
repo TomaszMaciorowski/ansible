@@ -1,0 +1,1 @@
+findmnt --kernel /tmp | grep nodev > result

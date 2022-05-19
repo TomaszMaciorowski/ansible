@@ -16,3 +16,12 @@
       line: SELINUX=permissive  
       create: no  
       regexp: SELINUX=.*
+
+  - name: Check Premesion
+    ansible.builtin.file:
+      path: /etc/issue
+      state: file
+      mode: '0644'
+      owner: root
+      group: root
+      
