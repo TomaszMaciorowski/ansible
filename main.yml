@@ -2,24 +2,17 @@
   hosts: all
 
   tasks:
-  - name: Touch file
-    ansible.builtin.file:
-      path: /var/tmp/foo.conf
-      state: file
-      mode: u=rw,g=r,o=r
-      owner: opc
+  - name: Tmount
+    ansible.posix.mount:
+      path: /dev/shm
+      src:  tmpfs
+      fstype: tmpfs
+      opts:  defaults,nodev,nosuid,noexec
+      state: present
 
-  - name: Copy file with owner and permissions
-    ansible.builtin.copy:
-      src: /etc/sysctl.conf
-      dest: /var/tmp/sysctl.conf
-      owner: root
-      group: root
-      mode: '0777'
-
-  - name: Add a line to a file if the file does not exist, without passing regexp
+  - name: set SELINUX correct
     ansible.builtin.lineinfile:
-      path: /var/tmp/sysctl.conf
-      line: vm.max_map_count=262144 
-      create: no
-      regexp: vm.max_map_count=.*
+      path: /etc/selinux/config
+      line: SELINUX=permissive  
+      create: no  
+      regexp: SELINUX=.*
