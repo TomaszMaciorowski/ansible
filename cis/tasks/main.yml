@@ -1,0 +1,52 @@
+---
+# tasks file for cis
+- name: Tmount
+  ansible.posix.mount:
+    path: /dev/shm
+    src:  tmpfs
+    fstype: tmpfs
+    opts:  defaults,nodev,nosuid,noexec
+    state: present
+
+- name: set SELINUX correct
+  ansible.builtin.lineinfile:
+    path: /etc/selinux/config
+    line: SELINUX=permissive  
+    create: no  
+    regexp: SELINUX=.*
+
+- name: Check Premesion
+  ansible.builtin.file:
+    path: /etc/issue
+    state: file
+    mode: '0644'
+    owner: root
+    group: root
+
+
+- name: set sshd
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    line: PermitEmptyPasswords no  
+    create: no  
+    regexp: PermitEmptyPasswords.*
+  tags:
+    - sshd
+  notify:
+    - restart_ssh
+
+- name: 174
+  ansible.builtin.file:
+    path: /etc/motd
+    state: file
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: inssue
+  ansible.builtin.template:
+    src:  templates/issue.j2
+    dest: /etc/issue
+    owner: root
+    group: root
+    mode: 0644          
