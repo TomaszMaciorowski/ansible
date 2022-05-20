@@ -54,13 +54,29 @@
     notify:
       - restart_ssh
 
+
+  - name: 174
+    ansible.builtin.file:
+      path: /etc/motd
+      state: file
+      mode: '0644'
+      owner: root
+      group: root
+
+
+  - name: inssue
+    copy:
+      src:  issue
+      dest: /etc/issue
+      owner: root
+      group: root
+      mode: 0644      
+
   handlers:
   - name: restart_ssh
     ansible.builtin.systemd:
       name: sshd
       state: restarted
-
-
 
 
 #
